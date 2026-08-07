@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galo da Sorte - Venda de Bilhetes</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(180deg, #f7fff4 0%, #e9f7ec 45%, #ffffff 100%);
+      color: #1f2a23;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 600px;
+      height: 600px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(194, 255, 204, 0.45), transparent 55%);
+      z-index: -1;
+      filter: blur(1px);
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      letter-spacing: -0.04em;
+      color: #39ff14;
+      text-shadow:
+        0 0 2px rgba(0, 0, 0, 0.7),
+        0 0 8px rgba(57, 255, 20, 0.9),
+        0 0 18px rgba(57, 255, 20, 0.7),
+        0 0 30px rgba(0, 0, 0, 0.35);
+    }
+    header .hero-box {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 18px 26px;
+      border-radius: 999px;
+      background: rgba(11, 61, 11, 0.9);
+      color: #f7f7f7;
+      font-weight: 600;
+      box-shadow: 0 18px 40px rgba(10, 48, 10, 0.22);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+    .hero-card,
+    .feature-card,
+    .detail-card,
+    .info-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(15, 38, 16, 0.08);
+      border: 1px solid rgba(31, 42, 35, 0.08);
+    }
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -40px;
+      width: 220px;
+      height: 220px;
+      background: rgba(180, 242, 180, 0.24);
+      border-radius: 50%;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    .hero-card h2 {
+      margin: 0 0 14px;
+      font-size: 2rem;
+      color: #0f2c14;
+    }
+    .hero-card p {
+      margin: 0 0 24px;
+      color: #445a46;
+      line-height: 1.75;
+    }
+    .label-pill {
+      display: inline-flex;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #e0ffe3;
+      color: #0f3e12;
+      font-weight: 700;
+      font-size: .95rem;
+      margin-bottom: 22px;
+    }
+    .price-block {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .price-block span {
+      font-size: 1rem;
+      color: #667c67;
+    }
+    .price-block strong {
+      font-size: 2.6rem;
+      color: #1d471f;
+    }
+    .ticket-input {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid #cde6cd;
+      background: #f6fff4;
+      color: #1f2a23;
+      font-size: 1.05rem;
+    }
+    .summary {
+      margin: 18px 0 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #12311e;
+    }
+    .button-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 18px 20px;
+      background: #d7f7cb;
+      color: #0f3e12;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: 1px solid rgba(15, 62, 18, 0.12);
+    }
+    .button-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 32px rgba(15, 62, 18, 0.14);
+    }
+    .feature-card h3,
+    .detail-card h3,
+    .info-card h3 {
+      margin: 0 0 14px;
+      font-size: 1.3rem;
+      color: #132613;
+    }
+    .feature-card p,
+    .detail-card p,
+    .info-card p {
+      margin: 0;
+      color: #4c6d54;
+      line-height: 1.75;
+    }
+    .feature-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+    }
+    .feature-box {
+      padding: 18px;
+      border-radius: 18px;
+      background: #f6fff4;
+      border: 1px solid rgba(15, 62, 18, 0.08);
+    }
+    .feature-box h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #0f3e12;
+    }
+    .feature-box p {
+      margin: 0;
+      color: #556d5f;
+      font-size: .95rem;
+    }
+    .highlight-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+    .highlight-list li {
+      padding: 14px 18px;
+      background: #f4fff2;
+      border-radius: 14px;
+      border: 1px solid rgba(15, 62, 18, 0.08);
+      color: #2d5131;
+    }
+    footer {
+      text-align: center;
+      padding: 24px 14px 30px;
+      color: #4d644e;
+      font-size: .95rem;
+    }
+    @media (max-width: 820px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      header {
+        padding: 40px 16px 28px;
+      }
+      .hero-card,
+      .feature-card,
+      .detail-card,
+      .info-card {
+        padding: 22px;
+      }
+      .button-link {
+        padding: 16px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Galo da Sorte</h1>
+    <div class="hero-box">Bilhetes a R$ 3,00 | Ganhe dinheiro, motos e carros</div>
+  </header>
+  <main>
+    <div class="grid-2">
+      <section class="hero-card">
+        <span class="label-pill">Promoção Especial</span>
+        <h2>Compre seu bilhete e concorra a grandes prêmios</h2>
+        <p>O Galo da Sorte oferece sorteios claros e rápidos. Cada bilhete custa apenas R$ 3,00 e aumenta suas chances de ganhar prêmios em dinheiro, motos ou carros.</p>
+        <div class="price-block">
+          <span>Valor por bilhete</span>
+          <strong>R$ 3,00</strong>
+        </div>
+        <label for="quantity">Quantidade de bilhetes</label>
+        <input id="quantity" class="ticket-input" type="number" min="1" step="1" value="1" placeholder="Digite a quantidade desejada" />
+        <p class="summary" id="purchaseSummary">Total: R$ 3,00</p>
+        <a class="button-link" target="_blank" rel="noopener noreferrer" href="https://wa.me/message/GNG4NMQ6LAYNN1">compre aqui!!!</a>
+      </section>
+      <section class="feature-card">
+        <h3>O que você ganha</h3>
+        <p>Ao participar do Galo da Sorte, você entra automaticamente nos próximos sorteios e ainda recebe atendimento via WhatsApp para confirmar sua compra.</p>
+        <div class="feature-grid">
+          <div class="feature-box">
+            <h4>Dinheiro em prêmios</h4>
+            <p>Sorteios com valores atrativos para transformar seu investimento em lucro.</p>
+          </div>
+          <div class="feature-box">
+            <h4>Motos e carros</h4>
+            <p>Prêmios especiais incluem motos e carros selecionados com documentação inclusa.</p>
+          </div>
+          <div class="feature-box">
+            <h4>Processo simples</h4>
+            <p>Compre pelo site, abra o WhatsApp e finalize rapidamente com o atendimento.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="grid-2">
+      <section class="detail-card">
+        <h3>Como funciona</h3>
+        <p>O site foi feito para ser rápido. Você escolhe quantos bilhetes quer, vê o total instantaneamente e clica no botão para falar com o atendimento pelo WhatsApp.</p>
+        <ul class="highlight-list">
+          <li>R$ 3 por bilhete</li>
+          <li>Compra ilimitada na mesma página</li>
+          <li>Envio direto para WhatsApp</li>
+          <li>Atendimento para confirmar pagamento</li>
+        </ul>
+      </section>
+      <section class="info-card">
+        <h3>Por que escolher o Galo da Sorte?</h3>
+        <p>Aqui na Galo da Sorte fazemos o sorteio com total transparência. Esse site foi pensado para que o usuário compre rapidamente e visualize os benefícios de participar dos sorteios.</p>
+        <ul class="highlight-list">
+          <li>Compra direta com link de contato</li>
+          <li>Visual leve e profissional</li>
+          <li>Informações claras e organizadas</li>
+          <li>Design responsivo para celular e desktop</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <p>© 2026 Galo da Sorte. Compra simples, segura e rápida pelo WhatsApp.</p>
+  </footer>
+  <script>
+    const quantityInput = document.getElementById('quantity');
+    const summary = document.getElementById('purchaseSummary');
+
+    function updateSummary() {
+      const quantity = Math.max(1, Number(quantityInput.value) || 1);
+      quantityInput.value = quantity;
+      const total = (quantity * 3).toFixed(2);
+      summary.textContent = `Total: R$ ${total}`;
+    }
+
+    quantityInput.addEventListener('input', updateSummary);
+    updateSummary();
+  </script>
+</body>
+</html>
